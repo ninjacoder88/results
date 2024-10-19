@@ -20,6 +20,12 @@ public class Processor
 	{
 		return new Failure<Item>("something went wrong");
 	}
+
+	public Result<Item> DoSomethingThatGenericallyFails()
+	{
+		var firstResult = new Failure("What??");
+		return new Failure<Item>(firstResult);
+	}
 }
 
 
