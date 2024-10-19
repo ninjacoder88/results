@@ -1,30 +1,50 @@
 ﻿namespace Ninjasoft.Results
 {
-    public class Failure : Result
+    public class Failure : IResult
     {
         public Failure()
         {
-            Success = false;
         }
 
         public Failure(string errorMessage)
         {
-            Success = false;
             ErrorMessage = errorMessage;
         }
+
+        public Failure(IResult result)
+        {
+            var resultType = result.GetType();
+            if (resultType.IsGenericType)
+                resultType = resultType.BaseType;
+
+            if(resultType != typeof(Failure))
+                throw new Exception("result type of Failure was expected");
+
+            ErrorMessage = result.ErrorMessage;
+        }
+
+        public bool IsSuccess => false;
+
+        public string? ErrorMessage { get; }
     }
 
-    public class Failure<T> : Result<T>
+    public class Failure<T> : Failure, IResult<T>
     {
-        public Failure()
+        public Failure() 
+            : base()
         {
-            Success = false;
         }
 
-        public Failure(string errorMessage)
+        public Failure(string errorMessage) 
+            : base(errorMessage)
         {
-            Success = false;
-            ErrorMessage = errorMessage;
         }
+
+        public Failure(IResult result)
+            : base(result)
+        {
+        }
+
+        public T? Data => default(T);
     }
 }

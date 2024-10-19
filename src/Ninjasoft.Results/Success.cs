@@ -1,23 +1,19 @@
 ﻿namespace Ninjasoft.Results
 {
-    public class Success : Result
+    public class Success : IResult
     {
-        public Success()
-        {
-            Success = true;
-        }
+        public bool IsSuccess => true;
+
+        public string? ErrorMessage => null;
     }
 
-    public class Success<T> : Result<T>
+    public class Success<T> : Success, IResult<T>
     {
-        public Success()
-        {
-            Success = true;
-        }
-
         public Success(T? data)
         {
             Data = data;
         }
+
+        public T? Data { get; }
     }
 }

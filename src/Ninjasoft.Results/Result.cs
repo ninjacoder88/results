@@ -1,18 +1,14 @@
 ﻿namespace Ninjasoft.Results
 {
-    public abstract class Result
+    public interface IResult
     {
-        public bool Success { get; protected set; }
+        public bool IsSuccess { get; }
 
-        public string? ErrorMessage { get; protected set; }
+        public string? ErrorMessage { get; }
     }
 
-    public abstract class Result<T>
+    public interface IResult<T> : IResult
     {
-        public bool Success { get; protected set; }
-
-        public string? ErrorMessage { get; protected set; }
-
-        public T? Data { get; protected set; }
+        public T? Data { get; }
     }
 }
